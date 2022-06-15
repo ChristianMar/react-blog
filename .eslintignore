@@ -1,0 +1,6 @@
+package.json
+**/webpack.**.js
+**/createStage.js
+**/**.js
+dist
+.eslintrc.**
