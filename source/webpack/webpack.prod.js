@@ -18,7 +18,7 @@ module.exports = (env, options) => {
     mode: 'production',
     target: 'web',
     entry: {
-      app: path.resolve(__dirname, '../', 'app', 'webapp', 'src', 'index.js')
+      app: path.resolve(__dirname, '../', 'app', 'webapp', 'src', 'index.tsx')
     },
     output: {
       path: path.resolve(__dirname, '../', '../', 'build'),

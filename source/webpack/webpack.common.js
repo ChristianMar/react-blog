@@ -46,12 +46,6 @@ module.exports = (env, options) => {
           use: ['style-loader', 'css-loader']
         },
         {
-          test: /\.(js|jsx)$/,
-          include: path.join(PATHS.UI, 'node_modules', 'react-flexbox-grid'),
-          loader: 'babel-loader',
-          options: { presets: ['@babel/env', '@babel/preset-react'] }
-        },
-        {
           test: /\.(ts|tsx)$/,
           exclude: /node_modules/,
           use: 'ts-loader'

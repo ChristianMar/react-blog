@@ -14,7 +14,7 @@ module.exports = (env, options) => {
   const rootPath = path.join(__dirname, '..', '..');
 
   return merge(webpackConfig, {
-    entry: path.join(rootPath, 'source', 'app', 'webapp', 'src', 'index.js'),
+    entry: path.join(rootPath, 'source', 'app', 'webapp', 'src', 'index.tsx'),
     mode: 'development',
     devtool: 'inline-source-map',
     devServer: {
