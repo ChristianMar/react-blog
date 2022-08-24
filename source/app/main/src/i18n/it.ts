@@ -1,5 +1,11 @@
 export const it = {
-  common: {},
+  common: {
+    prev: 'PREV',
+    next: 'NEXT',
+    back: 'Back',
+    close: 'Chiudi',
+    save: 'Salva'
+  },
   validation: {
     errors: {
       required: '%{field} è richiesto'
@@ -25,5 +31,12 @@ export const it = {
   errorBoundary: {
     error: 'Un errore è successo',
     goHome: 'Ritorna alla home'
+  },
+  postModal: {
+    modalTile: 'Crea Post',
+    modalEditTile: 'Edita Post',
+    title: 'Titolo',
+    post: 'Post',
+    image: 'Url Immagine'
   }
 };

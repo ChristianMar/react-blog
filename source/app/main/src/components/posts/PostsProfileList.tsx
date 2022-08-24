@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { UserPostsContext } from '../../context/UserPostsContext';
 import { PostsList as PostsListUI } from '@ui/main/posts/PostsList';
@@ -13,9 +13,8 @@ import {
 } from '../../store/slices/postsSlice';
 import { IUserItem } from '@main/mocks/users';
 
-export const PostsUserList = () => {
+export const PostsProfileList = () => {
   const location = useLocation() as { state: { id: number; username: string } };
-  const navigate = useNavigate();
   const userPostsContext = useContext(UserPostsContext);
 
   const { isLoading, isFetching, isError, error } = useGetUserPostsQuery({
@@ -51,12 +50,6 @@ export const PostsUserList = () => {
     userPostsContext.loadPrevUserPosts();
   };
 
-  const onGoBack = () => {
-    navigate(-1);
-  };
-
-  console.log(user);
-
   return (
     <PostsListUI
       loading={isLoading || isFetching}
@@ -66,7 +59,6 @@ export const PostsUserList = () => {
       loadNextPosts={loadNextPosts}
       loadPrevPosts={loadPrevPosts}
       user={user as IUserItem}
-      onGoBack={onGoBack}
     >
       {postsIds.map((postId) => (
         <PostUserItem key={postId} postId={postId} />

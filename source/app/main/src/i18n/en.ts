@@ -1,5 +1,11 @@
 export const en = {
-  common: {},
+  common: {
+    prev: 'PREV',
+    next: 'NEXT',
+    back: 'Back',
+    close: 'Close',
+    save: 'Save'
+  },
   validation: {
     errors: {
       required: '%{field} is required'
@@ -25,5 +31,12 @@ export const en = {
   errorBoundary: {
     error: 'An error occurred',
     goHome: 'Return to home'
+  },
+  postModal: {
+    modalTile: 'Create Post',
+    modalEditTile: 'Edit Post',
+    title: 'Title',
+    post: 'Post',
+    image: 'Image Url'
   }
 };

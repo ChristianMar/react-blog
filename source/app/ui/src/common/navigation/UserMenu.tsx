@@ -56,7 +56,13 @@ export const UserMenu = ({
         onClose={handleCloseUserMenu}
       >
         {userMenu.map((item) => (
-          <MenuItem key={item.id} onClick={() => onUserMenuClick(item.id)}>
+          <MenuItem
+            key={item.id}
+            onClick={() => {
+              handleCloseUserMenu();
+              onUserMenuClick(item.id);
+            }}
+          >
             <Typography textAlign="center">{item.label}</Typography>
           </MenuItem>
         ))}

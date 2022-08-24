@@ -1,46 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslate } from 'react-polyglot';
-import { useSelector } from 'react-redux';
+import React, { useContext } from 'react';
 
-import { useGetPostsMutation } from '../../store/api/postsApi';
+import { AllPostsContext } from '../../context/AllPostsContext';
 import { PostsList as PostsListUI } from '@ui/main/posts/PostsList';
-import { selectPostIds } from '../../store/slices/allPostsSlice';
 import { getErrorMessage } from '../../utils/getErrorMessage';
 import { IErrorQuery } from '../../mocks/errorQuery';
 import { PostItem } from './PostItem';
+import {
+  useGetPostsQuery,
+  postsSelectors,
+  postsAdapter
+} from '../../store/slices/postsSlice';
 
 export const PostsList = () => {
-  const [page, setPage] = useState(1);
-  const t = useTranslate();
-  const orderedPostIds = useSelector(selectPostIds);
+  const allPostsContext = useContext(AllPostsContext);
 
-  const [getPosts, { data, isLoading, error, isError }] = useGetPostsMutation();
+  const { isLoading, isFetching, isError, error } = useGetPostsQuery({
+    limit: allPostsContext.limit,
+    page: allPostsContext.page
+  });
 
-  const loadPosts = (page: number) => {
-    getPosts({
-      limit: 50,
-      page: page
-    });
+  const { cursor, postsIds } = useGetPostsQuery(
+    {
+      limit: allPostsContext.limit,
+      page: allPostsContext.page
+    },
+    {
+      selectFromResult: (result) => {
+        return {
+          cursor: result.data?.cursor,
+          postsIds: postsSelectors.selectIds(
+            result.data?.posts ?? postsAdapter.getInitialState()
+          )
+        };
+      }
+    }
+  );
+
+  const loadNextPosts = () => {
+    allPostsContext.loadNextPosts();
   };
 
-  useEffect(() => {
-    loadPosts(page);
-  }, []);
-
-  const loadMorePosts = () => {
-    setPage(page + 1);
-    loadPosts(page + 1);
+  const loadPrevPosts = () => {
+    allPostsContext.loadPrevPosts();
   };
 
   return (
     <PostsListUI
-      loading={page === 1 ? isLoading : false}
-      loadingMore={page !== 1 ? isLoading : false}
+      loading={isLoading || isFetching}
       error={getErrorMessage(isError, error as IErrorQuery)}
-      hasNext={data?.cursor.next}
-      loadMorePosts={loadMorePosts}
+      hasNext={cursor?.next}
+      hasPrev={cursor?.prev}
+      loadNextPosts={loadNextPosts}
+      loadPrevPosts={loadPrevPosts}
     >
-      {orderedPostIds.map((postId) => (
+      {postsIds.map((postId) => (
         <PostItem key={postId} postId={postId} />
       ))}
     </PostsListUI>

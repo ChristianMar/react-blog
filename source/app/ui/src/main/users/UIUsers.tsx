@@ -13,7 +13,7 @@ export const UserItem = styled('div')({
   margin: '25px auto',
   border: '1px solid lightgray',
   boxShadow: '5px 10px lightgray',
-  height: 200,
+  height: 140,
   borderRadius: 20
 });
 
@@ -24,7 +24,7 @@ export const UserElement = styled('div')({
 
 export const UserImage = styled('div')({
   margin: 20,
-  height: 160
+  height: 100
 });
 
 export const UserImageContent = styled('img')({
@@ -38,15 +38,19 @@ export const User = styled('div')(
   },
   (props: { full: boolean }) => ({
     left: !props.full ? 250 : 20,
-    width: !props.full ? 'calc(100% - 290px)' : 'calc(100% - 60px)'
+    width: !props.full ? 'calc(100% - 200px)' : 'calc(100% - 60px)'
   })
 );
 
-export const Username = styled('div')({
-  fontSize: 16,
-  fontWeight: 'bold',
-  cursor: 'pointer'
-});
+export const Username = styled('div')(
+  {
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  (props: { clickable: boolean }) => ({
+    cursor: !props.clickable ? 'auto' : 'pointer'
+  })
+);
 
 export const Name = styled('div')({
   marginTop: 20,

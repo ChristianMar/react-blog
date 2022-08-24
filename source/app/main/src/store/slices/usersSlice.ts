@@ -1,37 +1,43 @@
 import {
   createEntityAdapter,
-  createSlice,
-  PayloadAction
+  EntityAdapter,
+  EntityState
 } from '@reduxjs/toolkit';
 
-import { IUserItem, IUsers } from '../../mocks/users';
-import { RootState } from '../store';
+import { IUserItem, IUsers, IUsersGet } from '../../mocks/users';
+import { usersApi } from '../api/usersApi';
 
-const postsAdapter = createEntityAdapter<IUserItem>({
-  selectId: (user) => user.id,
-  sortComparer: (a, b) => a.username.localeCompare(b.username)
+export const usersAdapter: EntityAdapter<IUserItem> =
+  createEntityAdapter<IUserItem>({
+    selectId: (user) => user.id,
+    sortComparer: (a, b) => a.username.localeCompare(b.username)
+  });
+
+const initialState = {
+  cursor: {},
+  users: usersAdapter.getInitialState({})
+};
+
+export const extendedUsersSlice = usersApi.injectEndpoints({
+  endpoints: (builder) => ({
+    getUsers: builder.query({
+      query: (data: IUsersGet) => ({
+        url: '/users/all_users',
+        method: 'POST',
+        body: data
+      }),
+      transformResponse: (responseData: IUsers<IUserItem>) => {
+        return {
+          cursor: responseData.cursor,
+          users: usersAdapter.addMany(initialState.users, responseData.users)
+        };
+      }
+    })
+  })
 });
 
-export const usersSlice = createSlice({
-  name: 'users',
-  initialState: postsAdapter.getInitialState(),
-  reducers: {
-    emptyUsersArray: (state) => {
-      postsAdapter.setAll(state, []);
-    },
-    usersReceived: (state, { payload }: PayloadAction<IUsers<IUserItem>>) => {
-      postsAdapter.setMany(state, payload.users);
-    }
-  }
-});
+export const usersSelectors = usersAdapter.getSelectors<EntityState<IUserItem>>(
+  (state) => state
+);
 
-export const {
-  selectAll: selectAllUsers,
-  selectById: selectUserById,
-  selectIds: selectUsersIds
-  // Pass in a selector that returns the posts slice of state
-} = postsAdapter.getSelectors<RootState>((state) => state.allUsers);
-
-export const { emptyUsersArray, usersReceived } = usersSlice.actions;
-
-export default usersSlice.reducer;
+export const { useGetUsersQuery, endpoints } = extendedUsersSlice;

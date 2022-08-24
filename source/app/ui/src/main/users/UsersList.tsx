@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Button } from '@mui/material';
+import { useTranslate } from 'react-polyglot';
 
 import { IErrorsType } from '../../mocks/errorsType';
 import { ErrorList } from '../../common/components/ErrorList';
@@ -26,6 +27,7 @@ export const UsersList = ({
   loadNextUsers,
   loadPrevUsers
 }: Props) => {
+  const t = useTranslate();
   return (
     <React.Fragment>
       <ErrorList errors={error} />
@@ -36,10 +38,10 @@ export const UsersList = ({
           {children}
           <LoadMore>
             <Button onClick={loadPrevUsers} disabled={!hasPrev}>
-              <LabelButton label={'PREV'} />
+              <LabelButton label={t('common.prev')} />
             </Button>
             <Button onClick={loadNextUsers} disabled={!hasNext}>
-              <LabelButton label={'NEXT'} />
+              <LabelButton label={t('common.next')} />
             </Button>
           </LoadMore>
         </React.Fragment>

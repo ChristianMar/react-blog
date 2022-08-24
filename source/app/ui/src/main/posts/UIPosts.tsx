@@ -122,3 +122,14 @@ export const PostTitleUsername = styled('div')({
   fontWeight: 'bold',
   marginTop: 20
 });
+
+export const BackButton = styled('div')({
+  position: 'relative',
+  margin: '10px 25px'
+});
+
+export const PostButton = styled('div')({
+  position: 'absolute',
+  top: 0,
+  right: 10
+});

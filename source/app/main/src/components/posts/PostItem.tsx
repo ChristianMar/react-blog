@@ -1,15 +1,35 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { selectPostById } from '../../store/slices/allPostsSlice';
+import { AllPostsContext } from '../../context/AllPostsContext';
 import { PostItem as PostItemUI } from '@ui/main/posts/PostItem';
 import { IPost } from '../../mocks/posts';
+import {
+  useGetPostsQuery,
+  postsSelectors,
+  postsAdapter
+} from '../../store/slices/postsSlice';
 
 export const PostItem = ({ postId }: { postId: string | number }) => {
-  const post = useSelector((state: RootState) => selectPostById(state, postId));
+  const allPostsContext = useContext(AllPostsContext);
   const navigate = useNavigate();
+
+  const { post } = useGetPostsQuery(
+    {
+      limit: allPostsContext.limit,
+      page: allPostsContext.page
+    },
+    {
+      selectFromResult: (result) => {
+        return {
+          post: postsSelectors.selectById(
+            result.data?.posts ?? postsAdapter.getInitialState(),
+            postId
+          )
+        };
+      }
+    }
+  );
 
   const onShowUserPost = (id: string | number, username: string) => {
     navigate('/app/users_post', { state: { id: id, username: username } });

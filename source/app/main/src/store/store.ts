@@ -10,18 +10,16 @@ import { postsApi } from './api/postsApi';
 import { usersApi } from './api/usersApi';
 import { loadState } from '../utils/reduxSyncStorage';
 import userSlice from './slices/userSlice';
-import allPostsSlice from './slices/allPostsSlice';
-import userPostsSlice from './slices/userPostsSlice';
-import usersSlice from './slices/usersSlice';
+import { extendedUsersSlice } from './slices/usersSlice';
+import { extendedPostsSlice } from './slices/postsSlice';
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 const combinedReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [postsApi.reducerPath]: postsApi.reducer,
-  [usersApi.reducerPath]: usersApi.reducer,
-  user: userSlice,
-  allPosts: allPostsSlice,
-  userPosts: userPostsSlice,
-  allUsers: usersSlice
+  [extendedUsersSlice.reducerPath]: usersApi.reducer,
+  [extendedPostsSlice.reducerPath]: postsApi.reducer,
+  user: userSlice
 });
 
 export type RootState = ReturnType<typeof combinedReducer>;
@@ -45,3 +43,5 @@ export const store = configureStore({
 });
 
 export type AppDispatch = typeof store.dispatch;
+export type AppState = ReturnType<typeof store.getState>;
+export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;

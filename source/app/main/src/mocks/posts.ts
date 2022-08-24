@@ -16,6 +16,7 @@ export interface IPosts<T> {
     next: boolean;
     prev: boolean;
   };
+  user: IUser;
 }
 
 export interface IPostsGet {
@@ -33,4 +34,21 @@ export interface IPostUserGet {
 
 export interface IPostGet {
   postId: string | number;
+}
+
+export interface IPostCreate {
+  userId: string | number;
+  title: string;
+  post: string;
+  image: string | null;
+  createdAt: string;
+}
+
+export interface IPostEdit {
+  postId: string | number;
+  userId: string | number;
+  title: string;
+  post: string;
+  image: string | null;
+  createdAt: string;
 }

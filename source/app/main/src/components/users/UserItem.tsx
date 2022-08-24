@@ -1,21 +1,40 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { selectUserById } from '../../store/slices/usersSlice';
+import { AllUsersContext } from '../../context/AllUsersContext';
+import {
+  useGetUsersQuery,
+  usersSelectors,
+  usersAdapter
+} from '../../store/slices/usersSlice';
 import { UserItem as UserItemUI } from '@ui/main/users/UserItem';
-import { IUserItem } from '../../mocks/users';
 
 export const UserItem = ({ userId }: { userId: string | number }) => {
-  const user = useSelector((state: RootState) => selectUserById(state, userId));
+  const allUsersContext = useContext(AllUsersContext);
   const navigate = useNavigate();
+  const { user } = useGetUsersQuery(
+    {
+      limit: allUsersContext.limit,
+      page: allUsersContext.page
+    },
+    {
+      selectFromResult: (result) => {
+        return {
+          user: usersSelectors.selectById(
+            result.data?.users ?? usersAdapter.getInitialState(),
+            userId
+          )
+        };
+      }
+    }
+  );
 
-  const onShowUserPost = (id: string | number, username: string) => {
+  const onShowUserPost = (
+    id: string | number | undefined,
+    username: string | undefined
+  ) => {
     navigate('/app/users_post', { state: { id: id, username: username } });
   };
 
-  return (
-    <UserItemUI user={user as IUserItem} onShowUserPost={onShowUserPost} />
-  );
+  return <UserItemUI user={user} onShowUserPost={onShowUserPost} />;
 };

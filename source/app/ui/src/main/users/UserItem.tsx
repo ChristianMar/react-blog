@@ -12,24 +12,36 @@ import {
 } from './UIUsers';
 
 interface Props {
-  user: IUserItem;
-  onShowUserPost: (arg0: string | number, arg1: string) => void;
+  user: IUserItem | undefined;
+  onShowUserPost?: (
+    arg0: string | number | undefined,
+    arg1: string | undefined
+  ) => void;
 }
 
 export const UserItem = ({ user, onShowUserPost }: Props) => {
   return (
     <UserItemUI>
       <UserElement>
-        {!user.avatar ? null : (
+        {!user?.avatar ? null : (
           <UserImage>
-            <UserImageContent src={user.avatar} />
+            <UserImageContent src={user?.avatar} />
           </UserImage>
         )}
-        <User full={!user.avatar ? true : false}>
-          <Username onClick={() => onShowUserPost(user.id, user.username)}>
-            {user.username}
+        <User full={!user?.avatar ? true : false}>
+          <Username
+            onClick={
+              !onShowUserPost
+                ? () => {
+                    return;
+                  }
+                : () => onShowUserPost(user?.id, user?.username)
+            }
+            clickable={!onShowUserPost ? false : true}
+          >
+            {user?.username}
           </Username>
-          <Name>{`${user.firstName} ${user.lastName}`}</Name>
+          <Name>{`${user?.firstName} ${user?.lastName}`}</Name>
         </User>
       </UserElement>
     </UserItemUI>

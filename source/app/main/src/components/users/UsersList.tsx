@@ -1,52 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslate } from 'react-polyglot';
-import { useSelector } from 'react-redux';
+import React, { useContext } from 'react';
 
+import { AllUsersContext } from '../../context/AllUsersContext';
 import { UsersList as UsersListUI } from '@ui/main/users/UsersList';
 import { getErrorMessage } from '../../utils/getErrorMessage';
 import { IErrorQuery } from '../../mocks/errorQuery';
 import { UserItem } from './UserItem';
-import { useGetUsersMutation } from '../../store/api/usersApi';
-import { selectUsersIds } from '../../store/slices/usersSlice';
+import {
+  useGetUsersQuery,
+  usersSelectors,
+  usersAdapter
+} from '../../store/slices/usersSlice';
 
 export const UsersList = () => {
-  const [page, setPage] = useState(1);
-  const t = useTranslate();
-  const orderedUsersIds = useSelector(selectUsersIds);
+  const allUsersContext = useContext(AllUsersContext);
 
-  const [getUsers, { data, isLoading, error, isError }] = useGetUsersMutation();
+  const { isLoading, isFetching, isError, error } = useGetUsersQuery({
+    limit: allUsersContext.limit,
+    page: allUsersContext.page
+  });
 
-  const loadPosts = (page: number) => {
-    getUsers({
-      limit: 50,
-      page: page
-    });
-  };
-
-  useEffect(() => {
-    loadPosts(page);
-  }, []);
+  const { cursor, usersIds } = useGetUsersQuery(
+    {
+      limit: allUsersContext.limit,
+      page: allUsersContext.page
+    },
+    {
+      selectFromResult: (result) => {
+        return {
+          cursor: result.data?.cursor,
+          usersIds: usersSelectors.selectIds(
+            result.data?.users ?? usersAdapter.getInitialState()
+          )
+        };
+      }
+    }
+  );
 
   const loadNextUsers = () => {
-    setPage(page + 1);
-    loadPosts(page + 1);
+    allUsersContext.loadNextUser();
   };
 
   const loadPrevUsers = () => {
-    setPage(page - 1);
-    loadPosts(page - 1);
+    allUsersContext.loadPrevUser();
   };
 
   return (
     <UsersListUI
-      loading={isLoading}
+      loading={isLoading || isFetching}
       error={getErrorMessage(isError, error as IErrorQuery)}
-      hasNext={data?.cursor.next}
-      hasPrev={data?.cursor.prev && page !== 1}
+      hasNext={cursor?.next}
+      hasPrev={cursor?.prev}
       loadNextUsers={loadNextUsers}
       loadPrevUsers={loadPrevUsers}
     >
-      {orderedUsersIds.map((userId) => (
+      {usersIds.map((userId) => (
         <UserItem key={userId} userId={userId} />
       ))}
     </UsersListUI>
