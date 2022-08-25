@@ -1,13 +1,13 @@
 # react-ts-base-app
 
-typescript base react app
+This is a little blog developed in react. It works with the json server, you can find it at the [url](https://github.com/ChristianMar/simple-fake-server).
 
 ## external package
 
+- react 18
 - webpack 5
-- axios
-- final form
+- final-form
 - polyglot
-- redux 4
-- redux dev tools
 - material 5
+- redux-toolkit
+- rtk-query
