@@ -2,6 +2,34 @@
 
 This is a little blog developed in react. It works with the json server, you can find it at the [url](https://github.com/ChristianMar/simple-fake-server).
 
+## Getting started
+
+install dependencies:
+
+```
+yarn cleanup
+```
+
+start application:
+
+```
+yarn start-dev
+```
+
+the application address is:
+
+```
+https://localhost:9000/
+```
+
+You can also build the app with these commands:
+
+```
+yarn build-dev (for dev)
+yarn build-uat (for uat)
+yarn build-prod (for prod)
+```
+
 ## external package
 
 - react 18
