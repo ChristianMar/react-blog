@@ -9,7 +9,7 @@ module.exports = (env, options) => {
   let webappStageConfig = require(path.join(
     rootPath,
     'data',
-    process.env.STAGE + '.accesspages'
+    process.env.STAGE + '.config'
   ));
   let webappConfig = require(path.join(rootPath, 'data', 'config.webapp'));
 
