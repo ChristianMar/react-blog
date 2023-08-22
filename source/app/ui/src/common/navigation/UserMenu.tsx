@@ -37,7 +37,9 @@ export const UserMenu = ({
   return (
     <Box sx={{ flexGrow: 0 }}>
       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-        <Avatar alt={username} src={avatar} />
+        <Avatar alt={username} src={avatar}>
+          {!username ? 'A' : username.charAt(0)}
+        </Avatar>
       </IconButton>
       <Menu
         sx={{ mt: '45px' }}
