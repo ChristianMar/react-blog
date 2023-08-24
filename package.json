@@ -24,7 +24,9 @@
     "--- BUILD UAT ---": "build uat and release app",
     "build-uat": "yarn remove-build-folder && webpack --config ./source/webpack/webpack.prod.js --mode production --env uat",
     "--- BUILD PROD ---": "build prod and release app",
-    "build-prod": "yarn remove-build-folder && webpack --config ./source/webpack/webpack.prod.js --mode production --env prod"
+    "build-prod": "yarn remove-build-folder && webpack --config ./source/webpack/webpack.prod.js --mode production --env prod",
+    "--- TEST ---": "start test",
+    "start-test": "yarn start-dev | yarn cypress open"
   },
   "repository": {
     "type": "git",
