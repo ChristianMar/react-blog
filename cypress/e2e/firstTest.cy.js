@@ -1,8 +1,10 @@
 /*eslint-disable*/
 
+/// <reference types="cypress" />
+
 describe('first-test', () => {
   beforeEach(() => {
-    cy.visit('https://localhost:9000/#/');
+    cy.visit('/');
   });
 
   it('displays two todo items by default', () => {});
