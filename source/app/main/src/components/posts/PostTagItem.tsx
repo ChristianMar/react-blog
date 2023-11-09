@@ -8,19 +8,20 @@ import { IPost } from '../../mocks/posts';
 import {
   useGetUserPostsQuery,
   userPostsSelectors,
-  userPostsAdapter
+  userPostsAdapter,
+  useGetTagPostsQuery
 } from '../../store/slices/postsSlice';
 
-export const PostUserItem = ({ postId }: { postId: string | number }) => {
-  const location = useLocation() as { state: { id: number; username: string } };
+export const PostTagItem = ({ postId }: { postId: string | number }) => {
+  const location = useLocation() as { state: { tag: string } };
   const userPostsContext = useContext(UserPostsContext);
   const navigate = useNavigate();
 
-  const { post } = useGetUserPostsQuery(
+  const { post } = useGetTagPostsQuery(
     {
       limit: userPostsContext.limit,
       page: userPostsContext.page,
-      userId: location.state.id
+      tag: location.state.tag
     },
     {
       selectFromResult: (result) => {

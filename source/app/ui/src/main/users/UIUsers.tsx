@@ -1,4 +1,5 @@
 import { styled } from '@mui/system';
+import { Colors } from '@ui/styles/UIColors';
 
 export const LoadMore = styled('div')({
   marginTop: '25px',
@@ -7,14 +8,14 @@ export const LoadMore = styled('div')({
 });
 
 export const UserItem = styled('div')({
+  minWidth: 400,
   position: 'relative',
   display: 'block',
   maxWidth: 800,
   margin: '25px auto',
-  border: '1px solid lightgray',
-  boxShadow: '5px 10px lightgray',
   height: 140,
-  borderRadius: 20
+  borderRadius: 20,
+  backgroundColor: Colors.postColor
 });
 
 export const UserElement = styled('div')({

@@ -2,11 +2,9 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 
 import baseQueryWithRefresh from './query';
 
-export const postsApi = createApi({
-  reducerPath: 'posts',
+export const tagsApi = createApi({
+  reducerPath: 'tags',
   baseQuery: baseQueryWithRefresh,
-  keepUnusedDataFor: 30,
-  refetchOnMountOrArgChange: false,
-  tagTypes: ['Posts', 'Post', 'UserPost'],
+  tagTypes: ['Tags', 'ImportantTags'],
   endpoints: (builder) => ({})
 });

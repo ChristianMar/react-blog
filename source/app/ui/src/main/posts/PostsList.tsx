@@ -6,7 +6,12 @@ import { useTranslate } from 'react-polyglot';
 import { IErrorsType } from '../../mocks/errorsType';
 import { ErrorList } from '../../common/components/ErrorList';
 import { Spinner } from '../../common/components/Spinner';
-import { LoadMore, PostTitleUsername, BackButton } from './UIPosts';
+import {
+  LoadMore,
+  PostTitleUsername,
+  BackButton,
+  PostListContainer
+} from './UIPosts';
 import { LabelButton } from '../../common/inputs/LabelButton';
 import { IUserItem } from '@main/mocks/users';
 import { UserItem } from '../users/UserItem';
@@ -36,7 +41,7 @@ export const PostsList = ({
 }: Props) => {
   const t = useTranslate();
   return (
-    <React.Fragment>
+    <>
       <ErrorList errors={error} />
       {!onGoBack ? null : (
         <BackButton>
@@ -45,22 +50,18 @@ export const PostsList = ({
           </Button>
         </BackButton>
       )}
-      {loading ? (
-        <Spinner />
-      ) : (
-        <React.Fragment>
-          {!user ? null : <UserItem user={user} />}
-          {children}
-          <LoadMore>
-            <Button onClick={loadPrevPosts} disabled={!hasPrev}>
-              <LabelButton label={t('common.prev')} />
-            </Button>
-            <Button onClick={loadNextPosts} disabled={!hasNext}>
-              <LabelButton label={t('common.next')} />
-            </Button>
-          </LoadMore>
-        </React.Fragment>
-      )}
-    </React.Fragment>
+      {!user ? null : <UserItem user={user} />}
+      <PostListContainer>
+        {loading ? <Spinner /> : <React.Fragment>{children}</React.Fragment>}
+      </PostListContainer>
+      <LoadMore>
+        <Button onClick={loadPrevPosts} disabled={!hasPrev}>
+          <LabelButton label={t('common.prev')} />
+        </Button>
+        <Button onClick={loadNextPosts} disabled={!hasNext}>
+          <LabelButton label={t('common.next')} />
+        </Button>
+      </LoadMore>
+    </>
   );
 };

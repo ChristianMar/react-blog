@@ -13,9 +13,13 @@ export const usersAdapter: EntityAdapter<IUserItem> =
     sortComparer: (a, b) => a.username.localeCompare(b.username)
   });
 
-const initialState = {
+const initialStateUsers = {
   cursor: {},
   users: usersAdapter.getInitialState({})
+};
+
+const initialStateMostImportantUsers = {
+  mostImportantUser: usersAdapter.getInitialState({})
 };
 
 export const extendedUsersSlice = usersApi.injectEndpoints({
@@ -24,12 +28,32 @@ export const extendedUsersSlice = usersApi.injectEndpoints({
       query: (data: IUsersGet) => ({
         url: '/users/all_users',
         method: 'POST',
-        body: data
+        body: data,
+        tagTypes: ['Users']
       }),
       transformResponse: (responseData: IUsers<IUserItem>) => {
         return {
           cursor: responseData.cursor,
-          users: usersAdapter.addMany(initialState.users, responseData.users)
+          users: usersAdapter.addMany(
+            initialStateUsers.users,
+            responseData.users
+          )
+        };
+      }
+    }),
+    getMostImportantUsers: builder.query({
+      query: (data: IUsersGet) => ({
+        url: '/users/most_important_users',
+        method: 'POST',
+        body: data,
+        tagTypes: ['ImportantUsers']
+      }),
+      transformResponse: (responseData: IUsers<IUserItem>) => {
+        return {
+          mostImportantUser: usersAdapter.addMany(
+            initialStateMostImportantUsers.mostImportantUser,
+            responseData.users
+          )
         };
       }
     })
@@ -40,4 +64,5 @@ export const usersSelectors = usersAdapter.getSelectors<EntityState<IUserItem>>(
   (state) => state
 );
 
-export const { useGetUsersQuery, endpoints } = extendedUsersSlice;
+export const { useGetUsersQuery, useGetMostImportantUsersQuery, endpoints } =
+  extendedUsersSlice;

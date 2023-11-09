@@ -1,14 +1,27 @@
 import { styled } from '@mui/system';
+import { Colors } from '@ui/styles/UIColors';
+
+export const PostListContainer = styled('div')({
+  minWidth: 400,
+  margin: '25px auto',
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  justifyContent: 'center'
+});
 
 export const PostItem = styled('div')({
+  margin: 25,
+  width: 400,
   position: 'relative',
-  display: 'block',
-  maxWidth: 800,
-  margin: '25px auto',
-  border: '1px solid lightgray',
-  boxShadow: '5px 10px lightgray',
-  height: 200,
-  borderRadius: 20
+  // display: 'block',
+  // margin: '25px auto',
+  // border: '1px solid lightgray',
+  // boxShadow: '5px 10px lightgray',
+  height: 500,
+  borderRadius: 20,
+  backgroundColor: Colors.postColor
 });
 
 export const PostElement = styled('div')({
@@ -17,23 +30,32 @@ export const PostElement = styled('div')({
 });
 
 export const PostImage = styled('div')({
-  margin: 20,
-  height: 160,
+  width: '100%',
   borderRadius: 20
 });
 
 export const PostImageContent = styled('img')({
-  height: '100%',
-  borderRadius: 25
+  width: '100%',
+  borderRadius: '20px 20px 0 0'
 });
 
-export const Post = styled('div')(
+export const Post = styled('div')({
+  margin: 20
+});
+
+export const PostTags = styled('div')({
+  fontSize: 12,
+  display: 'inline-flex',
+  marginBottom: 10
+});
+
+export const PostTag = styled('div')(
   {
-    margin: 20
+    cursor: 'pointer',
+    textDecoration: 'underline'
   },
-  (props: { full: boolean }) => ({
-    left: !props.full ? 250 : 20,
-    width: !props.full ? 'calc(100% - 290px)' : 'calc(100% - 60px)'
+  (props: { isFirst: boolean }) => ({
+    marginLeft: props.isFirst ? 0 : 5
   })
 );
 
@@ -74,37 +96,36 @@ export const PostBig = styled('div')({
   position: 'relative',
   display: 'block',
   maxWidth: 800,
+  minWidth: 400,
   margin: '25px auto',
-  border: '1px solid lightgray',
-  boxShadow: '5px 10px lightgray',
+  // border: '1px solid lightgray',
+  // boxShadow: '5px 10px lightgray',
   minHeight: 400,
-  borderRadius: 20
+  borderRadius: 20,
+  backgroundColor: Colors.postColor
 });
 
 export const PostBigImage = styled('div')({
-  margin: 20,
-  height: 400,
   borderRadius: 20,
   display: 'block',
   textAlign: 'center'
 });
 
 export const PostBigImageContent = styled('img')({
-  height: '100%',
-  borderRadius: 20
+  width: '100%',
+  borderRadius: '20px 20px 0 0'
 });
 
 export const PostBigTitle = styled('div')({
   fontSize: 16,
   fontWeight: 'bold',
-  display: 'block',
-  margin: 20
+  display: 'block'
 });
 
 export const PostBigContent = styled('div')({
   marginTop: 20,
   display: 'block',
-  margin: '20px 20px 200px 20px'
+  paddingBottom: 100
 });
 
 export const PostBigDescription = styled('div')({
@@ -124,7 +145,7 @@ export const PostTitleUsername = styled('div')({
 });
 
 export const BackButton = styled('div')({
-  position: 'relative',
+  position: 'absolute',
   margin: '10px 25px'
 });
 

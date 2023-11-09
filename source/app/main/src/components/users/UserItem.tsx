@@ -33,7 +33,7 @@ export const UserItem = ({ userId }: { userId: string | number }) => {
     id: string | number | undefined,
     username: string | undefined
   ) => {
-    navigate('/app/users_post', { state: { id: id, username: username } });
+    navigate('/users_post', { state: { id: id, username: username } });
   };
 
   return <UserItemUI user={user} onShowUserPost={onShowUserPost} />;

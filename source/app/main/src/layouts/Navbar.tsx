@@ -25,7 +25,7 @@ export const Navbar = () => {
         });
         break;
       case 'users':
-        navigate('/app/users');
+        navigate('/users');
         break;
 
       default:
@@ -48,11 +48,25 @@ export const Navbar = () => {
   };
 
   const onHome = () => {
-    navigate('/app/posts');
+    navigate('/');
   };
 
+  const onLogin = () => {
+    console.log('Login');
+  };
+
+  const onSignup = () => {
+    console.log('Signup');
+  };
+
+  console.log('token', user.token);
   return (
     <NavbarUI
+      labels={{
+        login: t('login.login'),
+        signup: t('login.signup')
+      }}
+      logged={!!user.token}
       icon={process.env.FAVICON}
       avatar={user.avatar}
       username={user.username}
@@ -64,6 +78,8 @@ export const Navbar = () => {
       }))}
       onUserMenuClick={onUserMenuClick}
       onHome={onHome}
+      onLogin={onLogin}
+      onSignup={onSignup}
     />
   );
 };

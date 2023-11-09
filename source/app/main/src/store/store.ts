@@ -4,6 +4,7 @@ import {
   configureStore,
   Reducer
 } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 import { authApi } from './api/authApi';
 import { postsApi } from './api/postsApi';
@@ -12,13 +13,15 @@ import { loadState } from '../utils/reduxSyncStorage';
 import userSlice from './slices/userSlice';
 import { extendedUsersSlice } from './slices/usersSlice';
 import { extendedPostsSlice } from './slices/postsSlice';
-import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { extendedTagsSlice } from './slices/tagsSlice';
+import { tagsApi } from './api/tagsApi';
 
 const combinedReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [postsApi.reducerPath]: postsApi.reducer,
   [extendedUsersSlice.reducerPath]: usersApi.reducer,
   [extendedPostsSlice.reducerPath]: postsApi.reducer,
+  [extendedTagsSlice.reducerPath]: tagsApi.reducer,
   user: userSlice
 });
 
@@ -40,6 +43,7 @@ export const store = configureStore({
       .concat(authApi.middleware)
       .concat(postsApi.middleware)
       .concat(usersApi.middleware)
+      .concat(tagsApi.middleware)
 });
 
 export type AppDispatch = typeof store.dispatch;

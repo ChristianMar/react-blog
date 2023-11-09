@@ -10,11 +10,20 @@ import { AppLayout as AppLayoutUI } from '../../../ui/src/common/layouts/AppLayo
 import { UserContextProvider } from '../context/UserContext';
 import LanguageContext from '../context/LanguageContext';
 import { ErrorHandler } from './ErrorHandler';
-import { Login } from '../components/auth/Login';
-import { LoggedLayout } from './LoggedLayout';
 import { NoMatch } from './NoMatch';
 import { ILogged } from '../mocks/auth';
 import { selectCurrentUser } from '../store/slices/userSlice';
+import { Navbar } from './Navbar';
+import { PostsList } from '../components/posts/PostsList';
+import { PostsUserList } from '@main/components/posts/PostsUserList';
+import { UsersList } from '@main/components/users/UsersList';
+import { Post } from '@main/components/posts/Post';
+import { AllPostsContextProvider } from '@main/context/AllPostsContext';
+import { UserPostsContextProvider } from '@main/context/UserPostsContext';
+import { AllUsersContextProvider } from '@main/context/AllUsersContext';
+import { ModalContextProvider } from '@main/context/ModalContext';
+import { TagPostsContextProvider } from '@main/context/TagPostsContext';
+import { PostsTagList } from '@main/components/posts/PostsTagList';
 
 const languages = {
   it: it,
@@ -65,13 +74,33 @@ export const AppLayout = () => {
               onReset={() => setError(false)}
               resetKeys={[error]}
             >
-              <Routes>
-                <Route path="/">
-                  <Route path="/" element={<Login />} />
-                  <Route path="app/*" element={<LoggedLayout />} />
-                  <Route path="*" element={<NoMatch />} />
-                </Route>
-              </Routes>
+              <AllPostsContextProvider>
+                <UserPostsContextProvider>
+                  <TagPostsContextProvider>
+                    <AllUsersContextProvider>
+                      <ModalContextProvider>
+                        <Navbar />
+                        <Routes>
+                          <Route path="/">
+                            <Route path="/" element={<PostsList />} />
+                            <Route
+                              path="users_post"
+                              element={<PostsUserList />}
+                            />
+                            <Route
+                              path="tags_post"
+                              element={<PostsTagList />}
+                            />
+                            <Route path="users" element={<UsersList />} />
+                            <Route path="post" element={<Post />} />
+                            <Route path="*" element={<NoMatch />} />
+                          </Route>
+                        </Routes>
+                      </ModalContextProvider>
+                    </AllUsersContextProvider>
+                  </TagPostsContextProvider>
+                </UserPostsContextProvider>
+              </AllPostsContextProvider>
             </ErrorBoundary>
           </LanguageContext.Provider>
         </UserContextProvider>

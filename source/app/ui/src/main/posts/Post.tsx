@@ -16,7 +16,10 @@ import {
   PostBigTitle,
   PostUsername,
   BackButton,
-  PostButton
+  PostButton,
+  PostTags,
+  PostTag,
+  Post as PostUI
 } from './UIPosts';
 import { IErrorsType } from '../../mocks/errorsType';
 import { Spinner } from '../../common/components/Spinner';
@@ -25,6 +28,7 @@ import { ErrorList } from '../../common/components/ErrorList';
 interface Props {
   post: { post?: IPost };
   onShowUserPost: (arg0: string | number, arg1: string) => void;
+  onShowTagPost: (arg0: string) => void;
   loading: boolean;
   error?: IErrorsType;
   loadingDelete: boolean;
@@ -38,6 +42,7 @@ interface Props {
 export const Post = ({
   post,
   onShowUserPost,
+  onShowTagPost,
   loading,
   error,
   loadingDelete,
@@ -79,16 +84,30 @@ export const Post = ({
               <PostBigImageContent src={item.image} />
             </PostBigImage>
           )}
-          <PostBigTitle>{item.title}</PostBigTitle>
-          <PostBigContent>{item.post}</PostBigContent>
-          <PostBigDescription>
-            {format(new Date(item.createdAt), 'yyyy-MM-dd HH:mm')}
-            <PostUsername
-              onClick={() => onShowUserPost(item.user?.id, item.user?.username)}
-            >
-              {item.user?.username}
-            </PostUsername>
-          </PostBigDescription>
+          <PostUI>
+            <PostTags>
+              {item.tags.map((tag, i) => (
+                <>
+                  {i !== 0 ? ', ' : ''}
+                  <PostTag isFirst={i === 0} onClick={() => onShowTagPost(tag)}>
+                    {tag}
+                  </PostTag>
+                </>
+              ))}
+            </PostTags>
+            <PostBigTitle>{item.title}</PostBigTitle>
+            <PostBigContent>{item.post}</PostBigContent>
+            <PostBigDescription>
+              {format(new Date(item.createdAt), 'yyyy-MM-dd HH:mm')}
+              <PostUsername
+                onClick={() =>
+                  onShowUserPost(item.user?.id, item.user?.username)
+                }
+              >
+                {item.user?.username}
+              </PostUsername>
+            </PostBigDescription>
+          </PostUI>
         </PostBig>
       )}
     </React.Fragment>

@@ -28,27 +28,27 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     }, 100);
   };
 
-  const onNavigate = () => {
-    if (!user.token) {
-      deleteState();
-      navigate('/');
-    }
-  };
+  // const onNavigate = () => {
+  //   if (!user.token) {
+  //     deleteState();
+  //     navigate('/');
+  //   }
+  // };
 
-  useEffect(() => {
-    onNavigate();
-  }, []);
+  // useEffect(() => {
+  //   onNavigate();
+  // }, []);
 
-  useEffect(() => {
-    if (!user.token) {
-      deleteState();
-      navigate('/');
-    } else if (location.pathname === '/') navigate('app/posts');
-  }, [user.token]);
+  // useEffect(() => {
+  //   if (!user.token) {
+  //     deleteState();
+  //     navigate('/');
+  //   } else if (location.pathname === '/') navigate('app/posts');
+  // }, [user.token]);
 
-  useEffect(() => {
-    onNavigate();
-  }, [window.location.hash]);
+  // useEffect(() => {
+  //   onNavigate();
+  // }, [window.location.hash]);
 
   return (
     <UserContext.Provider

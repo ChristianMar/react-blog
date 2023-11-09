@@ -38,7 +38,11 @@ export const Post = () => {
   }, [isLoadingDelete]);
 
   const onShowUserPost = (id: string | number, username: string) => {
-    navigate('/app/users_post', { state: { id: id, username: username } });
+    navigate('/users_post', { state: { id: id, username: username } });
+  };
+
+  const onShowTagPost = (tag: string) => {
+    navigate('/tags_post', { state: { tag: tag } });
   };
 
   const onGoBack = () => {
@@ -56,6 +60,7 @@ export const Post = () => {
     <PostUI
       post={data as unknown as { post: IPost | undefined }}
       onShowUserPost={onShowUserPost}
+      onShowTagPost={onShowTagPost}
       loading={isLoading || isFetching}
       error={getErrorMessage(isError, error as IErrorQuery)}
       loadingDelete={isLoadingDelete}

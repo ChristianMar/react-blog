@@ -1,34 +1,36 @@
 import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { UserPostsContext } from '../../context/UserPostsContext';
 import { PostsList as PostsListUI } from '@ui/main/posts/PostsList';
 import { getErrorMessage } from '../../utils/getErrorMessage';
 import { IErrorQuery } from '../../mocks/errorQuery';
 import { PostUserItem } from './PostUserItem';
 import {
-  useGetUserPostsQuery,
   userPostsSelectors,
-  userPostsAdapter
+  userPostsAdapter,
+  useGetTagPostsQuery
 } from '../../store/slices/postsSlice';
 import { IUserItem } from '@main/mocks/users';
+import { TagPostsContext } from '@main/context/TagPostsContext';
+import { PostItem } from './PostItem';
+import { PostTagItem } from './PostTagItem';
 
-export const PostsUserList = () => {
-  const location = useLocation() as { state: { id: number; username: string } };
+export const PostsTagList = () => {
+  const location = useLocation() as { state: { tag: string } };
   const navigate = useNavigate();
-  const userPostsContext = useContext(UserPostsContext);
+  const tagPostsContext = useContext(TagPostsContext);
 
-  const { isLoading, isFetching, isError, error } = useGetUserPostsQuery({
-    limit: userPostsContext.limit,
-    page: userPostsContext.page,
-    userId: location.state.id
+  const { isLoading, isFetching, isError, error } = useGetTagPostsQuery({
+    limit: tagPostsContext.limit,
+    page: tagPostsContext.page,
+    tag: location.state.tag
   });
 
-  const { user, cursor, postsIds } = useGetUserPostsQuery(
+  const { cursor, postsIds } = useGetTagPostsQuery(
     {
-      limit: userPostsContext.limit,
-      page: userPostsContext.page,
-      userId: location.state.id
+      limit: tagPostsContext.limit,
+      page: tagPostsContext.page,
+      tag: location.state.tag
     },
     {
       selectFromResult: (result) => {
@@ -44,18 +46,16 @@ export const PostsUserList = () => {
   );
 
   const loadNextPosts = () => {
-    userPostsContext.loadNextUserPosts();
+    tagPostsContext.loadNextUserPosts();
   };
 
   const loadPrevPosts = () => {
-    userPostsContext.loadPrevUserPosts();
+    tagPostsContext.loadPrevUserPosts();
   };
 
   const onGoBack = () => {
     navigate(-1);
   };
-
-  console.log('user', user);
 
   return (
     <PostsListUI
@@ -65,11 +65,10 @@ export const PostsUserList = () => {
       hasPrev={cursor?.prev}
       loadNextPosts={loadNextPosts}
       loadPrevPosts={loadPrevPosts}
-      user={user as IUserItem}
       onGoBack={onGoBack}
     >
       {postsIds.map((postId) => (
-        <PostUserItem key={postId} postId={postId} />
+        <PostTagItem key={postId} postId={postId} />
       ))}
     </PostsListUI>
   );

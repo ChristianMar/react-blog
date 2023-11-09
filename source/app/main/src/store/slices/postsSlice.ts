@@ -11,7 +11,8 @@ import {
   IPostUserGet,
   IPostGet,
   IPostCreate,
-  IPostEdit
+  IPostEdit,
+  IPostTagGet
 } from '../../mocks/posts';
 import { postsApi } from '../api/postsApi';
 
@@ -93,6 +94,34 @@ export const extendedPostsSlice = postsApi.injectEndpoints({
             ]
           : [{ type: 'UserPost', id: 'LIST' }]
     }),
+    getTagPosts: builder.query({
+      query: (data: IPostTagGet) => ({
+        url: '/posts/tag_posts',
+        method: 'POST',
+        body: data,
+        tagTypes: ['TagPost']
+      }),
+      transformResponse: (responseData: IPosts<IPost>) => {
+        return {
+          user: responseData.user,
+          cursor: responseData.cursor,
+          posts: userPostsAdapter.addMany(
+            userPostsInitialState.posts,
+            responseData.posts
+          )
+        };
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.posts.ids.map((id) => ({
+                type: 'UserPost' as const,
+                id
+              })),
+              { type: 'UserPost', id: 'LIST' }
+            ]
+          : [{ type: 'UserPost', id: 'LIST' }]
+    }),
     getPost: builder.query({
       query: (data: IPostGet) => ({
         url: '/posts/get_post',
@@ -152,6 +181,7 @@ export const userPostsSelectors = userPostsAdapter.getSelectors<
 export const {
   useGetPostsQuery,
   useGetUserPostsQuery,
+  useGetTagPostsQuery,
   useGetPostQuery,
   useAddPostMutation,
   useEditPostMutation,

@@ -8,6 +8,7 @@ export interface IPost {
   image: string;
   createdAt: string;
   user: IUser;
+  tags: Array<string>;
 }
 
 export interface IPosts<T> {
@@ -30,6 +31,12 @@ export interface IPostUserGet {
   limit: number;
   page: number;
   userId: string | number;
+}
+
+export interface IPostTagGet {
+  limit: number;
+  page: number;
+  tag: string;
 }
 
 export interface IPostGet {

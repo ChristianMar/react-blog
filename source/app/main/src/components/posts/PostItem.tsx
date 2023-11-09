@@ -32,11 +32,15 @@ export const PostItem = ({ postId }: { postId: string | number }) => {
   );
 
   const onShowUserPost = (id: string | number, username: string) => {
-    navigate('/app/users_post', { state: { id: id, username: username } });
+    navigate('/users_post', { state: { id: id, username: username } });
+  };
+
+  const onShowTagPost = (tag: string) => {
+    navigate('/tags_post', { state: { tag: tag } });
   };
 
   const onShowPost = (id: string | number) => {
-    navigate('/app/post', { state: { id: id } });
+    navigate('/post', { state: { id: id } });
   };
 
   return (
@@ -44,6 +48,7 @@ export const PostItem = ({ postId }: { postId: string | number }) => {
       post={post as IPost}
       onShowUserPost={onShowUserPost}
       onShowPost={onShowPost}
+      onShowTagPost={onShowTagPost}
     />
   );
 };

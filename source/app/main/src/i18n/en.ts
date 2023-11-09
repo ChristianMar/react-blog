@@ -22,7 +22,9 @@ export const en = {
   login: {
     username: 'Username',
     password: 'Password',
-    login: 'Login'
+    repeatPassword: 'Repeat Password',
+    login: 'Login',
+    signup: 'Signup'
   },
   home: {
     welcome: 'Welcome',

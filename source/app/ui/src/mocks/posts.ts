@@ -8,4 +8,5 @@ export interface IPost {
   image: string;
   createdAt: string;
   user: IUser;
+  tags: Array<string>;
 }

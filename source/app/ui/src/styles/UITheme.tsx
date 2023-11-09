@@ -17,8 +17,13 @@ const customTheme = createTheme({
     fontSize: 14
   },
   palette: {
+    background: {
+      default: Colors.background,
+      paper: Colors.background
+    },
     text: {
-      primary: '#444656'
+      primary: Colors.white,
+      disabled: Colors.textDisabledColor
     },
     primary: {
       light: blue[300],
@@ -36,8 +41,16 @@ const customTheme = createTheme({
     // borderColor: grey[300],
     // pickerHeaderColor: blue[500],
     // shadowColor: grey[700],
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        text: {
+          color: Colors.white
+        }
+      }
+    }
   }
-  // overrides: {},
 });
 
 export default customTheme;
